@@ -18,12 +18,6 @@ jobs:
     steps:
       - name: Setup PHP
         uses: shivammathur/setup-php@master
-        with:
-          php-version: '7.3'
-          extension-csv: mbstring, xdebug #optional, setup extensions
-          ini-values-csv: post_max_size=256M, short_open_tag=On #optional, setup php.ini configuration
-          coverage: xdebug #optional, setup coverage driver
-          pecl: true #optional, setup PECL
       - run: |
           composer require vanilla/github-sync
           for target in $LABEL_REPO_TARGETS; do
