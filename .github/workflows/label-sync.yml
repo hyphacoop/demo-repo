@@ -18,6 +18,8 @@ jobs:
     steps:
       - name: Setup PHP
         uses: shivammathur/setup-php@master
+        with:
+          php-version: '7.3'
       - run: |
           composer require vanilla/github-sync
           for target in $LABEL_REPO_TARGETS; do
