@@ -1,4 +1,4 @@
-name: Label Sync
+name: Sync Labels
 
 on:
   label:
@@ -9,7 +9,7 @@ on:
 
 jobs:
   label-sync:
-    name: Label Sync
+    name: Install & Run
     runs-on: ubuntu-latest
     env:
       GITHUB_API_TOKEN: ${{ secrets.GITHUB_API_TOKEN }}
