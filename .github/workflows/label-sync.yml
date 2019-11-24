@@ -34,7 +34,7 @@ jobs:
           done
       - name: Notify issue
         run: |
-          cat <<EOF > payload.json
+          cat << EOF > payload.json
           {"body": "Labels have been synced! About: $EXPLAINING_LINK\n\n<sub>:scroll: Technical log: https://github.com/$GITHUB_REPOSITORY/commit/$GITHUB_SHA/checks#step:3:15</sub>"}
           EOF
           cat payload.json
