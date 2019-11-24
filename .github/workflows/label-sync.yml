@@ -14,15 +14,27 @@ jobs:
     env:
       GITHUB_API_TOKEN: ${{ secrets.GITHUB_API_TOKEN }}
       LABEL_REPO_SOURCE: hyphacoop/demo-repo
-      LABEL_REPO_TARGETS: patcon/label-sync-demo patcon/archive-demo
+      LABEL_REPO_TARGETS: >-
+        patcon/label-sync-demo
+        patcon/archive-demo
+      NOTIFIED_REPO: hyphacoop/demo-repo
+      NOTIFIED_ISSUE: 2
+      EXPLAINING_LINK: https://github.com/hyphacoop/organizing/pull/146
     steps:
       - name: Setup PHP
         uses: shivammathur/setup-php@master
         with:
           php-version: '7.3'
-      - run: |
+      - name: Sync labels
+        run: |
           composer require vanilla/github-sync
           for target in $LABEL_REPO_TARGETS; do
             # NOTE: "prune" ensures that missing tags will be culled from target repo, but ONLY if they are unused.
             ./vendor/bin/github-sync labels --from $LABEL_REPO_SOURCE --to $target --delete prune
           done
+      - name: Notify issue
+        run: >-
+          curl --request POST
+            --data "{'body': 'Labels have been synced!\nSee: ${EXPLAINING_LINK}'}"
+            --header "Authorization: token $GITHUB_API_TOKEN"
+            "https://api.github.com/repos/${NOTIFIED_REPO}/issues/${NOTIFIED_ISSUE}/comments"
