@@ -33,8 +33,8 @@ jobs:
             ./vendor/bin/github-sync labels --from $LABEL_REPO_SOURCE --to $target --delete prune
           done
       - name: Notify issue
-        run: >-
-          curl --request POST
-            --data "{'body': 'Labels have been synced!\nSee: ${EXPLAINING_LINK}'}"
-            --header "Authorization: token $GITHUB_API_TOKEN"
+        run: |
+          curl --request POST \
+            --data "{'body': 'Labels have been synced!\nSee: ${EXPLAINING_LINK}'}" \
+            --header "Authorization: token $GITHUB_API_TOKEN" \
             "https://api.github.com/repos/${NOTIFIED_REPO}/issues/${NOTIFIED_ISSUE}/comments"
